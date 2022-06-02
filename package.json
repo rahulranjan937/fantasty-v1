@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node backend/index.js",
     "dev": "nodemon --watch backend --watch public --exec \"npm run start\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:clean && npm run build:backend",
+    "test": "jest --watchAll"
   },
   "author": "Rahul Ranjan",
   "license": "ISC",
