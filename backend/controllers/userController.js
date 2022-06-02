@@ -133,17 +133,17 @@ const getUser = async (req, res) => {
   }
 };
 
-// Get all users
-const allUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    if (!users) {
-      return res.status(400).json({ msg: "No users found" });
-    }
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+// // Get all users
+// const allUsers = async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     if (!users) {
+//       return res.status(400).json({ msg: "No users found" });
+//     }
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 
 export { registerUser, loginUser, getUser, allUsers };
