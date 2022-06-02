@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node backend/index.js",
     "dev": "nodemon --watch backend --watch public --exec \"npm run start\"",
-    "build": "npm run build:clean && npm run build:backend",
-    "test": "jest --watchAll"
+    "build": "npm run build:clean && npm run build:backend"
   },
   "author": "Rahul Ranjan",
   "license": "ISC",
