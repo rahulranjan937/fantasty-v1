@@ -5,9 +5,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import User from "../models/userModel.js";
+import { resetPassword, forgotPassword } from "./passwdController.js";
 
 const { JWT_SECRET } = process.env;
 
+// Register a user
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -61,13 +63,8 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login user
-
+// Login a user
 const loginUser = async (req, res) => {
-  // res.json({
-  //   message: "Post a users",
-  // });
-
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -133,17 +130,4 @@ const getUser = async (req, res) => {
   }
 };
 
-// // Get all users
-const allUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    if (!users) {
-      return res.status(400).json({ msg: "No users found" });
-    }
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
-
-export { registerUser, loginUser, getUser, allUsers };
+export { registerUser, loginUser, getUser, resetPassword, forgotPassword };

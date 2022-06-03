@@ -19,6 +19,10 @@ const UserSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    token: {
+      type: String,
+      default: "",
+    },
   },
   {
     versionKey: false,
