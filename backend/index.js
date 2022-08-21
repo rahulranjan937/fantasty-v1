@@ -5,7 +5,7 @@ import morgan from "morgan";
 
 import { connectDB } from "./config/db.js";
 
-import userRoutes from "./routes/userRoutes.js";
+import router from "./routes/index.js";
 
 dotenv.config();
 
@@ -25,17 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const status = (req, res) => {
-  res.json({
-    status: "success",
-    message: "Server is running",
-  });
-};
-
-// Use Routes
-app.get("/", status);
-
-app.use("/api/users", userRoutes);
+app.use("/", router);
 
 //Server
 app
