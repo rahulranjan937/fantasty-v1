@@ -99,7 +99,7 @@ const loginUser = async (req, res) => {
       payload,
       JWT_SECRET,
       {
-        expiresIn: 3600,
+        expiresIn: 3600 * 7 * 24 - 12,
       },
       (err, token) => {
         if (err) throw err;

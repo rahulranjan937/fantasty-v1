@@ -1,5 +1,6 @@
 import User from "../models/userModel.js";
 import Blog from "../models/blogModel.js";
+import { isMongoObjectId } from "./../helper/isMongoObject.js";
 
 const getBlogs = async (req, res) => {
   try {
@@ -13,7 +14,8 @@ const getBlogs = async (req, res) => {
 
 const getBlog = async (req, res) => {
   try {
-    const blog = await Blog.find({ user: req.user.id });
+    if (!isMongoObjectId(req.params.id)) throw new Error("Invalid id");
+    const blog = await Blog.findOne({ _id: req.params.id });
     if (!blog) return res.status(404).json({ message: "Blog not found" });
     res.json(blog);
   } catch (err) {
@@ -42,15 +44,11 @@ const createBlog = async (req, res) => {
 };
 
 const updateBlog = async (req, res) => {
-  console.log("Id", req.params.id);
-  console.log("Body", req.body);
   try {
-    const blog = await Blog.findById(req.params.id);
-    console.log("Blog", blog);
+    if (!req.user) return res.status(401).json({ message: "Please login" });
+    if (!isMongoObjectId(req.params.id)) throw new Error("Invalid id");
+    const blog = await Blog.findOne({ _id: req.params.id });
     if (!blog) return res.status(404).json({ message: "Blog not found" });
-
-    // if (!req.user) return res.status(401).json({ message: "User not found" });
-
     if (blog.user.toString() !== req.user.id) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -60,11 +58,11 @@ const updateBlog = async (req, res) => {
       title,
       content,
     };
-    console.log("PL", payload);
+
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, payload, {
       new: true,
     });
-    console.log("UB", updatedBlog);
+
     res.json(updatedBlog);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -72,8 +70,11 @@ const updateBlog = async (req, res) => {
 };
 
 const deleteBlog = async (req, res) => {
+  console.log("from deleteBlog");
   try {
-    const blog = await Blog.findById(req.params.id);
+    // check if the id is a valid mongo object id
+    if (!isMongoObjectId(req.params.id)) throw new Error("Invalid id");
+    const blog = await Blog.findOne({ _id: id });
 
     if (!blog) return res.status(404).json({ message: "Blog not found" });
 
@@ -83,7 +84,7 @@ const deleteBlog = async (req, res) => {
       return res.status(401).json({ message: "Not authorized" });
     }
 
-    await Blog.findByIdAndDelete(req.params.id);
+    await Blog.findByIdAndDelete(id);
     res.json({ message: "Blog deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });

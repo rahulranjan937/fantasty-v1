@@ -15,7 +15,7 @@ import {
 router.route("/").get(getBlogs);
 router.route("/").post(authMiddleware, createBlog);
 router.route("/:id").get(authMiddleware, getBlog);
-router.route("/:id").put(updateBlog);
+router.route("/:id").put(authMiddleware, updateBlog);
 router.route("/:id").delete(authMiddleware, deleteBlog);
 
 export default router;
