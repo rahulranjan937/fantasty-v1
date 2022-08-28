@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node backend/index.js",
-    "dev": "nodemon --watch backend --watch public --exec \"npm run start\"",
-    "build": "npm run build:clean && npm run build:backend"
+    "dev": "nodemon --watch backend --watch public --exec \"npm run start\""
   },
   "author": "Rahul Ranjan",
   "license": "ISC",
