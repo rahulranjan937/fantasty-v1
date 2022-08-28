@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
 
     const payload = {
       user: {
-        id: newUser.id,
+        id: newUser._id, // newUser._id
       },
     };
 
@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
 
     const payload = {
       user: {
-        id: user.id,
+        id: user._id, // user._id
       },
     };
 
