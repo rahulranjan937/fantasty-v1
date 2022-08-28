@@ -10,7 +10,7 @@ import {
   createBlog,
   updateBlog,
   deleteBlog,
-} from "../controllers/BlogController.js";
+} from "../controllers/blogController.js";
 
 router.route("/").get(getBlogs);
 router.route("/").post(authMiddleware, createBlog);
