@@ -14,7 +14,19 @@ const getBlogs = async (req, res) => {
   }
 };
 
-const getBlog = async (req, res) => {
+const getBlogsByUser = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: "User not found" });
+    const blogs = await Blog.find({ user: req.user.id });
+    if (!blogs) return res.status(404).json({ message: "No blogs found" });
+    res.json(blogs);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+const getBlogbyId = async (req, res) => {
   try {
     if (!isMongoObjectId(req.params.id)) throw new Error("Invalid id");
 
@@ -37,7 +49,6 @@ const createBlog = async (req, res) => {
 
   const { title, content } = req.body;
   const user = await User.findById(req.user.id);
-  console.log(user);
   if (!user) return res.status(404).json({ message: "User not found" });
   try {
     const payload = {
@@ -82,14 +93,12 @@ const updateBlog = async (req, res) => {
 };
 
 const deleteBlog = async (req, res) => {
-  console.log(req.user);
   try {
     // check if the id is a valid mongo object id
     if (!isMongoObjectId(req.params.id)) throw new Error("Invalid id");
     if (!req.user) return res.status(401).json({ message: "User not found" });
 
     const blog = await Blog.findOne({ _id: req.params.id });
-
     if (!blog) return res.status(404).json({ message: "Blog not found" });
     if (blog.user.toString() !== req.user.id) {
       return res.status(401).json({ message: "Not authorized" });
@@ -103,4 +112,11 @@ const deleteBlog = async (req, res) => {
   }
 };
 
-export { getBlogs, getBlog, createBlog, updateBlog, deleteBlog };
+export {
+  getBlogs,
+  getBlogsByUser,
+  getBlogbyId,
+  createBlog,
+  updateBlog,
+  deleteBlog,
+};

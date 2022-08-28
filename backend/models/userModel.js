@@ -19,13 +19,7 @@ const UserSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    subscriptions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Subscription",
-        required: true,
-      },
-    ],
+   
     token: {
       type: String,
       default: "",
