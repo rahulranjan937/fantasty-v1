@@ -4,7 +4,7 @@ const router = Router();
 
 import userRoutes from "./user.routes.js";
 import blogRoutes from "./blog.routes.js";
-import subscriptionRoutes from "./subscription.routes.js";
+// import subscriptionRoutes from "./subscription.routes.js";
 
 const status = (req, res) => {
   res.json({
@@ -17,6 +17,6 @@ router.route("/").get(status);
 
 router.use("/api/users", userRoutes);
 router.use("/api/blogs", blogRoutes);
-router.use("/api/subscriptions", subscriptionRoutes);
+// router.use("/api/subscriptions", subscriptionRoutes);
 
 export default router;
