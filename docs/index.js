@@ -1,5 +1,8 @@
 import { openapi, info, servers } from "./info.js";
-import { components, paths, security, tags } from "./blogs.js";
+import { components } from "./components.js";
+import { paths } from "./paths.js";
+import { tags } from "./tags.js";
+import { security } from "./security.js";
 
 const docs = {
   openapi,
