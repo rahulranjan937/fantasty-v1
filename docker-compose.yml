@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  api-server:
+    build:
+      context: .
+    container_name: fantasy-auth-api-server-v1
+    image: fantasy-auth-api-server-v1
+    restart: unless-stopped
+    env_file:
+      - .env
+
+    networks:
+      - app-network
+    ports:
+      - '3000:3333'
+
+  nginx-server:
+    build:
+      context: ./nginx
+    container_name: nginx-server
+    image: nginx
+    restart: unless-stopped
+
+    depends_on:
+      - api-server
+
+    networks:
+      - app-network
+
+    ports:
+      - '80:3000'
+
+networks:
+  app-network:
+    driver: bridge
