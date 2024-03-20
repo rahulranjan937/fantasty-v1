@@ -3,10 +3,15 @@ import dotenv from "dotenv";
 import crypto from "crypto";
 import sgMail from "@sendgrid/mail";
 import User from "../models/userModel.js";
+import mailgun from "mailgun-js";
+
+const DOMAIN = "https://rahulranjanext.netlify.app/";
+
+const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN });
 
 dotenv.config();
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const forgotPassword = async (req, res) => {
   const { token, password } = req.body;
@@ -83,20 +88,34 @@ const resetPassword = async (req, res) => {
       <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
     };
 
-    sgMail
-      .send(msg)
-      .then(() => {
-        console.log("Email sent");
-        res.json({
-          message: "Email sent",
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    // sgMail
+    //   .send(msg)
+    //   .then(() => {
+    //     console.log("Email sent");
+    //     res.json({
+    //       message: "Email sent",
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     res.status(500).json({
+    //       message: "Error sending email",
+    //     });
+    //   });
+
+    mg.messages().send(msg, function (error, body) {
+      if (error) {
+        console.log(error);
         res.status(500).json({
           message: "Error sending email",
         });
-      });
+      } else {
+        console.log(body);
+        res.json({
+          message: "Email sent",
+        });
+      }
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
